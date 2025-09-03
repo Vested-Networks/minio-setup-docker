@@ -2,7 +2,7 @@
 
 # Settings and configurations that are common for all containers
 x-minio-common: &minio-common
-  image: minio/minio:latest
+  image: minio/minio:RELEASE.2025-07-23T15-54-02Z
   command: server --console-address ":9001" http://minio{1...2}/data{1...2}
   expose:
     - "9000"
@@ -35,8 +35,8 @@ services:
       - ./.data/data2-2:/data2
     restart: always
 
-  minio-lb:
-    image: nginx:latest-alpine
+  minio-fe:
+    image: nginx:1.29-alpine
     hostname: nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
