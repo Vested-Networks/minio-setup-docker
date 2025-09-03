@@ -18,6 +18,7 @@ This repository contains a minimal and scalable setup for running a **MinIO** di
 
 ```
 .
+├── .data/                 # Persistent storage volume
 ├── docker-compose.yml     # Main MinIO + NGINX setup
 ├── nginx.conf             # NGINX reverse proxy config
 └── README.md              # This file
@@ -30,7 +31,7 @@ This repository contains a minimal and scalable setup for running a **MinIO** di
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/Raguggg/minio-setup-docker.git
+   git clone git@github.com:Vested-Networks/minio-setup-docker.git
    cd minio-setup-docker
    ```
 
@@ -51,6 +52,16 @@ This repository contains a minimal and scalable setup for running a **MinIO** di
    Username: admin
    Password: changeme
    ```
+
+---
+
+## 📥 Download MinIO client
+
+```bash
+sudo wget -O /usr/local/bin/mc  ttps://dl.min.io/client/mc/release/linux-amd64/mc
+sudo chmod +x /usr/local/bin/mc
+mc --help
+```
 
 ---
 
@@ -76,6 +87,6 @@ mc ilm rule add local/yourbucket --expire-days 1 --prefix "temporary/"
 ## 📎 Reference
 
 📝 Blog: [Blog](https://ragug.medium.com/setting-up-minio-with-docker-an-open-source-alternative-to-aws-s3-ba92a052576e)
-🔗 NGINX Config & Full Setup: [GitHub Repository](https://github.com/Raguggg/minio-setup-docker)
+🔗 Original NGINX Config & Full Setup: [GitHub Repository](https://github.com/Raguggg/minio-setup-docker)
 
 ---
