@@ -2,7 +2,7 @@
 
 # Settings and configurations that are common for all containers
 x-minio-common: &minio-common
-  image: minio/minio:RELEASE.2025-04-22T22-12-26Z-cpuv1
+  image: minio/minio:latest
   command: server --console-address ":9001" http://minio{1...2}/data{1...2}
   expose:
     - "9000"
@@ -23,19 +23,19 @@ services:
     <<: *minio-common
     hostname: minio1
     volumes:
-      - data1-1:/data1
-      - data1-2:/data2
+      - ./.data/data1-1:/data1
+      - ./.data/data1-2:/data2
     restart: always
 
   minio2:
     <<: *minio-common
     hostname: minio2
     volumes:
-      - data2-1:/data1
-      - data2-2:/data2
+      - ./.data/data2-1:/data1
+      - ./.data/data2-2:/data2
     restart: always
 
-  nginx:
+  minio-lb:
     image: nginx:1.19.2-alpine
     hostname: nginx
     volumes:
@@ -47,31 +47,3 @@ services:
       - minio1
       - minio2
     restart: always
-## By default this config uses default local driver,
-## For custom volumes replace with volume driver configuration.
-volumes:
-  data1-1:
-    driver: local
-    driver_opts:
-      type: none
-      device: /data/minio/data1-1
-      o: bind
-  data1-2:
-    driver: local
-    driver_opts:
-      type: none
-      device: /data/minio/data1-2
-      o: bind
-  data2-1:
-    driver: local
-    driver_opts:
-      type: none
-      device: /data/minio/data2-1
-      o: bind
-  data2-2:
-    driver: local
-    driver_opts:
-      type: none
-      device: /data/minio/data2-2
-      o: bind
-
