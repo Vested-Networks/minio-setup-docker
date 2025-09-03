@@ -36,7 +36,7 @@ services:
     restart: always
 
   minio-lb:
-    image: nginx:1.19.2-alpine
+    image: nginx:latest-alpine
     hostname: nginx
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
