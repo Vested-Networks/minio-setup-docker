@@ -58,7 +58,7 @@ This repository contains a minimal and scalable setup for running a **MinIO** di
 ## 📥 Download MinIO client
 
 ```bash
-sudo wget -O /usr/local/bin/mc  ttps://dl.min.io/client/mc/release/linux-amd64/mc
+sudo wget -O /usr/local/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
 sudo chmod +x /usr/local/bin/mc
 mc --help
 ```
@@ -73,6 +73,51 @@ To auto-delete files older than 1 day in the `temporary/` folder of a bucket, fo
 mc alias set local http://localhost:9000 admin changeme
 mc ilm rule add local/yourbucket --expire-days 1 --prefix "temporary/"
 ```
+
+---
+
+## 👮 Policy files
+
+To set up access rules from a json policy file, use:
+
+```bash
+# Create a bucket
+mc mb local/yourbucket
+
+# Set bucket permissions <download|upload|public>
+mc anonymous set download local/yourbucket
+
+# Load permissions from policy file
+mc anonymous set-json bucket-policy.json local/yourbucket
+
+```
+
+Contents of `bucket-policy.json`:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": ["*"]
+      },
+      "Action": ["s3:GetObject"],
+      "Resource": "arn:aws:s3:::*/*"
+    },
+    {
+      "Effect": "Deny",
+      "Principal": {
+        "AWS": ["*"]
+      },
+      "Action": ["s3:ListBucket"],
+      "Resource": "arn:aws:s3:::*"
+    }
+  ]
+}
+
+``
 
 ---
 
