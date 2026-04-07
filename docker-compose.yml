@@ -1,6 +1,6 @@
 services:
   minio:
-    container_name: minio_server
+    container_name: minio
     image: minio/minio:latest
     ports:
       - "127.0.0.1:9900:9000"  # For connecting to Minio API
@@ -11,9 +11,9 @@ services:
       MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: changeme
     command: server --console-address ":9001" /data
-  healthcheck:
-    test: ["CMD", "mc", "ready", "local"]
-    interval: 5s
-    timeout: 5s
-    retries: 5
-  restart: always
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
