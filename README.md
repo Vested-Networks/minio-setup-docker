@@ -1,14 +1,12 @@
+# 🚀 MinIO Setup - Single Node
 
-# 🚀 MinIO Setup with Docker and NGINX
-
-This repository contains a minimal and scalable setup for running a **MinIO** distributed object storage cluster using **Docker Compose** and **NGINX** as a reverse proxy.
+This repository contains a minimal setup for running a **MinIO** object storage server using **Docker Compose**.
 
 ---
 
 ## 📦 What's Included
 
-* **MinIO Cluster** (2 nodes by default, scalable)
-* **NGINX Reverse Proxy** for load balancing
+* **MinIO Server** (1 node)
 * Sample **lifecycle rule** to auto-delete temporary files
 * Persistent **volume mounts**
 
@@ -20,7 +18,6 @@ This repository contains a minimal and scalable setup for running a **MinIO** di
 .
 ├── .data/                 # Persistent storage volume
 ├── docker-compose.yml     # Main MinIO + NGINX setup
-├── nginx.conf             # NGINX reverse proxy config
 └── README.md              # This file
 ```
 
@@ -31,11 +28,11 @@ This repository contains a minimal and scalable setup for running a **MinIO** di
 1. **Clone the repository**
 
    ```bash
-   git clone git@github.com:Vested-Networks/minio-setup-docker.git
+   git clone -b single-node git@github.com:Vested-Networks/minio-setup-docker.git
    cd minio-setup-docker
    ```
 
-2. **Start the MinIO cluster**
+2. **Start the MinIO server**
 
    ```bash
    docker-compose up -d
@@ -43,8 +40,8 @@ This repository contains a minimal and scalable setup for running a **MinIO** di
 
 3. **Access MinIO:**
 
-   * S3-compatible API: [http://localhost:9000](http://localhost:9000)
-   * Admin Console: [http://localhost:9001](http://localhost:9001)
+   * S3-compatible API: [http://localhost:9900](http://localhost:9000)
+   * Admin Console: [http://localhost:9901](http://localhost:9001)
 
 4. **Default Credentials:**
 
@@ -70,7 +67,7 @@ mc --help
 To auto-delete files older than 1 day in the `temporary/` folder of a bucket, follow the guide in the main blog post or use:
 
 ```bash
-mc alias set local http://localhost:9000 admin changeme
+mc alias set local http://localhost:9900 admin changeme
 mc ilm rule add local/yourbucket --expire-days 1 --prefix "temporary/"
 ```
 
@@ -118,14 +115,6 @@ Contents of `bucket-policy.json`:
 }
 
 ```
-
----
-
-## 📌 Notes
-
-* You can scale MinIO instances by modifying the `docker-compose.yml` file.
-* If scaling beyond 2 nodes, **update `nginx.conf`** accordingly.
-* The NGINX config is designed for basic load balancing; customize as needed.
 
 ---
 
