@@ -6,7 +6,7 @@ services:
       - "127.0.0.1:9900:9000"  # For connecting to Minio API
       - "127.0.0.1:9901:9001"  # For viewing Minio Web Console
     volumes:
-      - ./.data:/data:Z
+      - ./.data:/data
     environment:
       MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: changeme
