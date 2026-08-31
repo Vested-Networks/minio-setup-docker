@@ -17,3 +17,9 @@ services:
       timeout: 5s
       retries: 5
     restart: always
+    # Also joins waf-vndash-shared: the WAF platform's caddy-waf (a separate
+    # compose project, see ../waf-platform/docker-compose.yml) proxies this as
+    # the assets upstream.
+    networks:
+      - default
+      - waf-vndash-shared
